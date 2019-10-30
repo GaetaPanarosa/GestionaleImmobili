@@ -1,0 +1,202 @@
+{%  extends 'index.html' %}
+{% block content %}
+    <div class="container mt-5">
+        {% if form.indirizzo.value is not None %}
+            <h1>Modifica immobile</h1>
+        {% else %}
+            <h1>Aggiungi nuovo immobile</h1>
+        {% endif %}
+        <form class="mt-5" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-xl-3">
+                    <label for="indirizzo">Indirizzo</label>
+                    {{ form.indirizzo }}
+                </div>
+                <div class="col-xl-3">
+                    <label for="stato">Stato</label>
+                    {{ form.stato }}
+                </div>
+                <div class="col-xl-3">
+                    <label for="città">Città</label>
+                    {{ form.citta }}
+                </div>
+                <div class="col-xl-3">
+                    <label for="tipologia">Tipologia</label>
+                    {{ form.tipologia }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-3">
+                    {{ form.cliente }}
+{#                    <input type="hidden" name="cliente" id="id_cliente">#}
+{#                    {% if form.indirizzo.value is not None %}#}
+                        {#                        <label for="new_cliente">Modifica cliente di questo immobile</label>#}
+                        {#                        <br>#}
+                        {#                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Modifica Cliente</button>#}
+                        {#                        <br>#}
+                        <script>
+                            $(document).ready(function () {
+                                    {% if form.indirizzo.value is None %}
+                                $('#collapseExample').show()
+                                {% endif %}
+                            })
+                        </script>
+{#                    {% else %}#}
+{#                        <label for="new_cliente">Nuovo cliente</label>#}
+{#                        <br>#}
+{#                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Nuovo Cliente</button>#}
+{#                        <br>#}
+{#                    {% endif %}#}
+                    <label for="contratto">Contratto</label>
+                    {{ form.contratto }}
+                    <label for="fascia_prezzo">Fascia di Prezzo</label>
+                    {{ form.fascia_prezzo }}
+                    <label for="prezzo">Prezzo</label>
+                    {{ form.prezzo }}
+                 <label for="mutuo">Mutuo</label>
+                    {{ form.mutuo }}
+                </div>
+                <div class="col-xl-3">
+                    <label for="zona">Zona</label>
+                    {{ form.zona }}
+                </div>
+                <div class="col-xl-3">
+                    <label for="immobili_proposti">Immobili Proposti</label>
+                    {{ form.immobili_proposti }}
+                </div>
+                <div class="col-xl-3">
+                    <label for="note">Note</label>
+                    {{ form.note }}
+                </div>
+            </div>
+            {%  if form.indirizzo.value is not None %}
+                <button class="btn btn-success mt-3" type="submit" id="button_submit_immobile" style="float: right">Modifica</button>
+            {% else %}
+                <button class="btn btn-success mt-3" type="submit" id="button_submit_immobile" style="float: right">Inserisci</button>
+            {% endif %}
+        </form>
+        <br>
+        <div class="collapse mt-5" id="collapseExample">
+            <div class="card card-body">
+                {% if form.indirizzo.value is not None %}
+                    <h2>Dettaglio cliente</h2>
+
+                {% else %}
+                    <h2>Inserisci nuovo cliente</h2>
+                {% endif %}
+
+                <form method="POST" action="/aggiungi_cliente_immobile/" id="form_cliente">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="nome">Nome</label>
+                            {{ formCliente.nome }}
+                        </div>
+                        <div class="col-4">
+                            <label for="cognome">Cognome</label>
+                            {{ formCliente.cognome }}
+                        </div>
+                        <div class="col-4">
+                            <label for="email">E-Mail</label>
+                            {{ formCliente.email }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="nome">Città</label>
+                            {{ formCliente.citta }}
+                        </div>
+                        <div class="col-4">
+                            <label for="cognome">Telefono Cellulare</label>
+                            {{ formCliente.telefono_cellulare }}
+                        </div>
+                        <div class="col-4">
+                            <label for="email">Telefono Fisso</label>
+                            {{ formCliente.telefono_fisso }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-3">
+                            <label for="nome">Cliente</label>
+                            {{ formCliente.cliente }}
+                        </div>
+                        <div class="col-3">
+                            <label for="inizio_incarico">Inizio Incarico</label>
+                            <br>
+                            {{ formCliente.inizio_incarico }}
+                        </div>
+                        <div class="col-3">
+                            <label for="fine_incarico">Fine Incarico</label>
+                            <br>
+                            {{ formCliente.fine_incarico }}
+                        </div>
+                        <div class="col-3">
+                            <label for="scadenza">Scadenza mandato</label>
+                            <br>
+                            {{ formCliente.scadenza }}
+                        </div>
+                    </div>
+                    {% if form.indirizzo.value is not None %}
+                        <button class="btn btn-success mt-3" type="submit" style="float: right">Modifica</button>
+                    {% else %}
+                        <button class="btn btn-success mt-3" type="submit" style="float: right">Registra Utente</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="results"></div> <!-- errors go here -->
+{% endblock %}
+
+{% block js %}
+    <script>
+
+        $('document').ready(function () {
+            {% if form.indirizzo.value is None %}
+            $('#button_submit_immobile').hide()
+            {% endif %}
+
+            $('#form_cliente').on('submit', function(event){
+                event.preventDefault();
+                console.log("form submitted!")  // sanity check
+                submit_form_cliente();
+            });
+        })
+
+        function submit_form_cliente() {
+            $.ajax({
+                url : "aggiungi_cliente_immobile/", // the endpoint
+                type : "POST", // http method
+                data : {
+                    nome : $('#id_nome').val(),
+                    cognome : $('#id_cognome').val(),
+                    email : $('#id_email').val(),
+                    citta : $('#id_citta').val(),
+                    telefono_fisso : $('#id_telefono_fisso').val(),
+                    telefono_cellulare : $('#id_telefono_cellulare').val(),
+                    cliente : $('#id_cliente').val(),
+                    inizio_incarico : $('#id_inizio_incarico').val(),
+                    fine_incarico : $('#id_fine_incarico').val(),
+                    scadenza : $('#id_scadenza').val(),
+                }, // data sent with the post request
+
+                // handle a successful response
+                success : function(json) {
+                    $('#id_cliente').val($('#id_cliente').val() + json )
+                    alert("Cliente inserito correttamente! Puoi proseguire con l\'inserimento dell\'immobile.");
+                    $('#button_submit_immobile').show()
+                    console.log(json); // log the returned json to the console
+                    console.log("success"); // another sanity check
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        };
+    </script>
+{% endblock %}

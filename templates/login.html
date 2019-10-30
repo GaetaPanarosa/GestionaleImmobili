@@ -1,0 +1,57 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Login | Immobiliare Principe</title>
+</head>
+<body class="bg-light">
+
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-md-4 mt-5">
+            <div style="text-align:center"><img src="{% static '/logo.png' %}" width="100%"></div>
+            <div class="card mt-5">
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            </div>
+                            <input type="text" id="username" name="username" class="form-control" placeholder="Username"
+                                   autocomplete="off">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-key"></i></span>
+                            </div>
+                            <input type="password" name="password" class="form-control" placeholder="Password"
+                                   autocomplete="off">
+                        </div>
+
+                        <div class="row">
+                            <div class="col pr-2">
+                                <button type="submit" class="btn btn-block btn-primary">Login</button>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    {% if msg %}
+                        <div id="loginError" class="alert alert-danger" style=" text-align: center ">
+                            {{ msg }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

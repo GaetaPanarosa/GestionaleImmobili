@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+    <h1>Gestione amministrazione</h1>
+    <form class="mt-5" method="POST">
+         <h2>Gestione Fascia di prezzo</h2>
+            {% csrf_token %}
+            <div class="col-6">
+            <div class="row">
+                <div class="col">
+                    <label for="fascia_minima">Fascia Minima</label>
+                        {{ formFascia.fascia_min }}
+                </div>
+                <div class="col">
+                    <label for="fascia_masssima">Fascia Massima</label>
+                    {{ formFascia.fascia_max }}
+                </div>
+            </div>
+            <button class="btn btn-success mt-3" style="float:right" type="submit">Inserisci</button>
+            </div>
+        </form>
+     <div class="col-6">
+
+    </div>
+        </div>
+
+        {% if msg is not None %}
+    <div id="dialog">
+        <p>{{msg}}</p>
+    </div>
+    {% endif %}
+    </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function () {
+            $( "#dialog" ).dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+        effect: "explode",
+        duration: 1000
+      }
+    });
+
+    $( "#opener" ).on( "click", function() {
+      $( "#dialog" ).dialog( "open" );
+    });
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends 'index.html' %}
+<div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+</div>
+{% block content %}
+    <ul class="nav nav-tabs my-5" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Immobili in vendita</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Immobili in affitto</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Gestione Locali</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="container-fluid tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <a href="{% url 'form_immobile' %}"><button type="button" style="float: right" class="btn btn-success mb-3">Aggiungi Immobile</button></a>
+            <table id="immobili_vendita" class="display compact mt-5 table table-striped table-responsive" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Data Inserimento</th>
+                    <th>Indirizzo</th>
+                    <th>Città</th>
+                    <th>Zona</th>
+                    <th>Cliente</th>
+                    <th>Cellulare</th>
+                    <th>Fisso</th>
+                    <th>Prezzo</th>
+                    <th>Fascia di prezzo</th>
+                    <th>Tipologia</th>
+                    <th>Mutuo</th>
+                    <th>Immobili Proposti</th>
+                    <th>Note</th>
+                    <th>Stato</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="container-fluid tab-pane fade mb-5" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <a href="{% url 'form_immobile' %}"><button type="button" style="float: right" class="btn btn-success mb-3">Aggiungi Immobile</button></a>
+            <table id="immobili_affitto" class="display compact mt-5 table table-striped table-responsive" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Data Inserimento</th>
+                    <th>Indirizzo</th>
+                    <th>Città</th>
+                    <th>Zona</th>
+                    <th>Cliente</th>
+                    <th>Cellulare</th>
+                    <th>Fisso</th>
+                    <th>Prezzo</th>
+                    <th>Fascia di prezzo</th>
+                    <th>Tipologia</th>
+                    <th>Mutuo</th>
+                    <th>Immobili Proposti</th>
+                    <th>Note</th>
+                    <th>Stato</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class=" container-fluid tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <a href="{% url 'form_immobile' %}"><button type="button" style="float: right" class="btn btn-success mb-3">Aggiungi Immobile</button></a>
+            <table class="display compact mt-5 table table-striped table-responsive" style="width:100%" id="immobili_gestione" >
+                <thead>
+                <tr>
+                    <th>Data Inserimento</th>
+                    <th>Indirizzo</th>
+                    <th>Città</th>
+                    <th>Zona</th>
+                    <th>Cliente</th>
+                    <th>Cellulare</th>
+                    <th>Fisso</th>
+                    <th>Prezzo</th>
+                    <th>Fascia di prezzo</th>
+                    <th>Tipologia</th>
+                    <th>Mutuo</th>
+                    <th>Immobili Proposti</th>
+                    <th>Note</th>
+                    <th>Stato</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready( function () {
+            {#$.fn.dataTable.ext.errMode = 'throw'#}
+            {#$.fn.dataTable.moment( 'D/M/YYYY' );#}
+            {% if msg is not None %}
+                $("body").load(function(){
+                    alert("Image loaded.");
+                });
+            {% endif %}
+            {#$(':input[type=search]').on( 'keyup', function () {#}
+            {#    var value = $(this).val().toLowerCase();#}
+            {#        $("#immobili_vendita tr").filter(function() {#}
+            {#          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)#}
+            {#        });#}
+            {# } );#}
+            $('#immobili_vendita').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "order": [ 0, "desc" ],
+                "ajax": "{% url 'immobili_vendita' %}",
+                "language" :
+                    {
+                        "sEmptyTable" : "Nessun dato presente nella tabella" ,
+                        "sInfo" : "Vista da _START_ a _END_ di _TOTAL_ elementi" ,
+                        "sInfoEmpty" : "Vista da 0 a 0 di 0 elementi" ,
+                        "sInfoFiltered" : "(filtrati da _MAX_ elementi totali)" ,
+                        "sInfoPostFix" : "" ,
+                        "sInfoThousands" : "." ,
+                        "sLengthMenu" : "Visualizza _MENU_ elementi" ,
+                        "sLoadingRecords" : "Caricamento..." ,
+                        "sProcessing" : "Elaborazione..." ,
+                        "sSearch" : "Cerca:" ,
+                        "sZeroRecords" : "La ricerca non ha portato alcun risultato." ,
+                        "oPaginate" : {
+                            "sFirst" : "Inizio" ,
+                            "sPrevious" : "Precedente" ,
+                            "sNext" : "Successivo" ,
+                            "sLast" : "Fine"
+                        } ,
+                        "oAria" : {
+                            "sSortAscending" : ": attiva per ordinare la colonna in ordine crescente" ,
+                            "sSortDescending" : ": attiva per ordinare la colonna in ordine decrescente"
+                        }
+                    } ,
+                
+            });
+            $('#immobili_affitto').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": "{% url 'immobili_affitto' %}",
+                "order": [ 0, "desc" ],
+                "language" :
+                    {
+                        "sEmptyTable" : "Nessun dato presente nella tabella" ,
+                        "sInfo" : "Vista da _START_ a _END_ di _TOTAL_ elementi" ,
+                        "sInfoEmpty" : "Vista da 0 a 0 di 0 elementi" ,
+                        "sInfoFiltered" : "(filtrati da _MAX_ elementi totali)" ,
+                        "sInfoPostFix" : "" ,
+                        "sInfoThousands" : "." ,
+                        "sLengthMenu" : "Visualizza _MENU_ elementi" ,
+                        "sLoadingRecords" : "Caricamento..." ,
+                        "sProcessing" : "Elaborazione..." ,
+                        "sSearch" : "Cerca:" ,
+                        "sZeroRecords" : "La ricerca non ha portato alcun risultato." ,
+                        "oPaginate" : {
+                            "sFirst" : "Inizio" ,
+                            "sPrevious" : "Precedente" ,
+                            "sNext" : "Successivo" ,
+                            "sLast" : "Fine"
+                        } ,
+                        "oAria" : {
+                            "sSortAscending" : ": attiva per ordinare la colonna in ordine crescente" ,
+                            "sSortDescending" : ": attiva per ordinare la colonna in ordine decrescente"
+                        }
+                    } ,
+                
+            });
+            $('#immobili_gestione').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": "{% url 'immobili_gestione' %}",
+                "order": [ 0, "desc" ],
+                "language" :
+                    {
+                        "sEmptyTable" : "Nessun dato presente nella tabella" ,
+                        "sInfo" : "Vista da _START_ a _END_ di _TOTAL_ elementi" ,
+                        "sInfoEmpty" : "Vista da 0 a 0 di 0 elementi" ,
+                        "sInfoFiltered" : "(filtrati da _MAX_ elementi totali)" ,
+                        "sInfoPostFix" : "" ,
+                        "sInfoThousands" : "." ,
+                        "sLengthMenu" : "Visualizza _MENU_ elementi" ,
+                        "sLoadingRecords" : "Caricamento..." ,
+                        "sProcessing" : "Elaborazione..." ,
+                        "sSearch" : "Cerca:" ,
+                        "sZeroRecords" : "La ricerca non ha portato alcun risultato." ,
+                        "oPaginate" : {
+                            "sFirst" : "Inizio" ,
+                            "sPrevious" : "Precedente" ,
+                            "sNext" : "Successivo" ,
+                            "sLast" : "Fine"
+                        } ,
+                        "oAria" : {
+                            "sSortAscending" : ": attiva per ordinare la colonna in ordine crescente" ,
+                            "sSortDescending" : ": attiva per ordinare la colonna in ordine decrescente"
+                        }
+                    } ,
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,70 @@
+{%  extends 'index.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+    {% if form.nome.value and form.cognome.value is not None %}
+            <h1>Modifica cliente</h1>
+        {% else %}
+        <h1>Aggiungi nuovo cliente</h1>
+        {% endif %}
+        <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="nome">Nome</label>
+                            {{ form.nome }}
+                        </div>
+                        <div class="col-4">
+                            <label for="cognome">Cognome</label>
+                            {{ form.cognome }}
+                        </div>
+                        <div class="col-4">
+                            <label for="email">E-Mail</label>
+                            {{ form.email }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="nome">Città</label>
+                            {{ form.citta }}
+                        </div>
+                        <div class="col-4">
+                            <label for="cognome">Telefono Cellulare</label>
+                            {{ form.telefono_cellulare }}
+                        </div>
+                        <div class="col-4">
+                            <label for="email">Telefono Fisso</label>
+                            {{ form.telefono_fisso }}
+                        </div>
+                    </div>
+                 <div class="row mt-2">
+                        <div class="col-3">
+                            <label for="nome">Cliente</label>
+                            {{ form.cliente }}
+                        </div>
+                        <div class="col-3">
+                            <label for="inizio_incarico">Inizio Incarico</label>
+                            <br>
+                            {{ form.inizio_incarico }}
+                        </div>
+                        <div class="col-3">
+                            <label for="fine_incarico">Fine Incarico</label>
+                            <br>
+                            {{ form.fine_incarico }}
+                        </div>
+                         <div class="col-3">
+                            <label for="scadenza">Scadenza mandato</label>
+                            <br>
+                            {{ form.scadenza }}
+                        </div>
+                    </div>
+                    <button class="btn btn-success mt-3" type="submit" style="float: right">Inserisci</button>
+
+                </form>
+    <a href="{% url 'gestione_rubrica' %}"><button class="btn btn-primary">Indietro</button></a>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
